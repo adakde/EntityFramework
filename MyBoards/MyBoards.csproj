@@ -6,21 +6,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Entities\Address.cs" />
-    <Compile Remove="Entities\User.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Controllers\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="Entities\Address.cs" />
-    <None Include="Entities\User.cs" />
   </ItemGroup>
 
 </Project>

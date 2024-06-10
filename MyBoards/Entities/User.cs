@@ -1,4 +1,6 @@
-﻿namespace MyBoards.Entities
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace MyBoards.Entities
 {
     public class User
     {
