@@ -11,12 +11,22 @@ namespace MyBoards.Entities
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> comments { get; set; }
+        public DbSet<WorkIteamState> States { get; set; }
+        public DbSet<WorkItemTag> WorkItemTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<WorkItem>()
-                .Property(x => x.state)
-                .IsRequired();
+            modelBuilder.Entity<WorkItem>(eb =>
+            {
+                eb.HasOne(x => x.State).WithMany().HasForeignKey(c => c.StateId);
+            }
+                ) ;
+            modelBuilder.Entity<WorkIteamState>(eb =>
+            {
+                eb.Property(x => x.Value).IsRequired();
+                eb.Property(y => y.Value).HasMaxLength(50);
+            }
+    );
             modelBuilder.Entity<WorkItem>().
                 Property(x => x.area).
                 HasColumnType("Varchar(200)");
@@ -36,7 +46,21 @@ namespace MyBoards.Entities
                 .WithMany(u => u.WorkItems)
                 .HasForeignKey(u => u.AuthorId);
                 eb.HasMany(w => w.Tags)
-                .WithMany(u => u.WorkItems);
+                .WithMany(u => u.WorkItems)
+                .UsingEntity<WorkItemTag>(
+                    w => w.HasOne(wit => wit.Tag)
+                    .WithMany()
+                    .HasForeignKey(u => u.TagId),
+
+                    w => w.HasOne(wit => wit.WorkItem)
+                    .WithMany()
+                    .HasForeignKey(u => u.WorkItemId),
+                    wit =>
+                    {
+                        wit.HasKey(X => new { X.WorkIteamId, X.TagId });
+                        wit.Property(X => X.PublicationDate).HasDefaultValueSql("Getutdate()");
+                    }
+                    );
             });
             modelBuilder.Entity<Comment>(eb =>
             {
@@ -46,11 +70,6 @@ namespace MyBoards.Entities
             modelBuilder.Entity<User>(eb =>
             {
                 eb.HasOne(x => x.Address).WithOne(a => a.User).HasForeignKey<Address>(a => a.UserId);
-            });
-            modelBuilder.Entity<WorkItemTag>(eb =>
-            {
-                eb.HasKey(x => new { x.WorkIteamId, x.TagId });
-
             });
         }
     }
