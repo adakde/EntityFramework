@@ -28,6 +28,12 @@ namespace MyBoards.Entities
                 eb.Property(ss => ss.Efford).HasColumnType("decimal(5,2)");
                 eb.Property(xx => xx.Activity).HasMaxLength(200);
                 eb.Property(xs => xs.RemaningWork).HasPrecision(14, 2);
+                eb.Property(xx => xx.Priority).HasDefaultValue(1);
+            });
+            modelBuilder.Entity<Comment>(eb =>
+            {
+                eb.Property(x => x.CreatedDate).HasDefaultValueSql("getutDate()");
+                eb.Property(x => x.UpdatedDate).ValueGeneratedOnUpdate();
             });
         }
     }

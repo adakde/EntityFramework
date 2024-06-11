@@ -10,6 +10,7 @@ namespace MyBoards.Entities
         public string state {  get; set; }
         public string area { get; set; }
         public string IterationPath { get; set; }
+
         public int Priority { get; set; }
         //Epic
         public DateTime? StartDate { get; set; }
