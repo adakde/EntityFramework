@@ -35,6 +35,8 @@ namespace MyBoards.Entities
                 eb.HasOne(o => o.Author)
                 .WithMany(u => u.WorkItems)
                 .HasForeignKey(u => u.AuthorId);
+                eb.HasMany(w => w.Tags)
+                .WithMany(u => u.WorkItems);
             });
             modelBuilder.Entity<Comment>(eb =>
             {
@@ -44,6 +46,11 @@ namespace MyBoards.Entities
             modelBuilder.Entity<User>(eb =>
             {
                 eb.HasOne(x => x.Address).WithOne(a => a.User).HasForeignKey<Address>(a => a.UserId);
+            });
+            modelBuilder.Entity<WorkItemTag>(eb =>
+            {
+                eb.HasKey(x => new { x.WorkIteamId, x.TagId });
+
             });
         }
     }
