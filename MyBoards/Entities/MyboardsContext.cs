@@ -23,6 +23,11 @@ namespace MyBoards.Entities
             modelBuilder.Entity<WorkItem>(eb =>
             {
                 eb.Property(wi => wi.IterationPath).HasColumnName("Iteration_Path");
+                eb.Property(xi => xi.StartDate).HasPrecision(3);
+                eb.Property(yi => yi.EndDate).HasPrecision(3);
+                eb.Property(ss => ss.Efford).HasColumnType("decimal(5,2)");
+                eb.Property(xx => xx.Activity).HasMaxLength(200);
+                eb.Property(xs => xs.RemaningWork).HasPrecision(14, 2);
             });
         }
     }
