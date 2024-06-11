@@ -10,6 +10,8 @@
         public DateTime UpdatedDate { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
+        public WorkItem WorkItem { get; set; }
+        public int WorkItemId { get; set; }
 
     }
 }

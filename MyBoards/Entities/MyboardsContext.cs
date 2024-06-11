@@ -14,9 +14,9 @@ namespace MyBoards.Entities
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<WorkItem>().
-                Property(x => x.state).
-                IsRequired();
+            modelBuilder.Entity<WorkItem>()
+                .Property(x => x.state)
+                .IsRequired();
             modelBuilder.Entity<WorkItem>().
                 Property(x => x.area).
                 HasColumnType("Varchar(200)");
@@ -29,11 +29,21 @@ namespace MyBoards.Entities
                 eb.Property(xx => xx.Activity).HasMaxLength(200);
                 eb.Property(xs => xs.RemaningWork).HasPrecision(14, 2);
                 eb.Property(xx => xx.Priority).HasDefaultValue(1);
+                eb.HasMany(xa => xa.Comments)
+                .WithOne(c => c.WorkItem)
+                .HasForeignKey(c => c.WorkItem.Id);
+                eb.HasOne(o => o.Author)
+                .WithMany(u => u.WorkItems)
+                .HasForeignKey(u => u.AuthorId);
             });
             modelBuilder.Entity<Comment>(eb =>
             {
                 eb.Property(x => x.CreatedDate).HasDefaultValueSql("getutDate()");
                 eb.Property(x => x.UpdatedDate).ValueGeneratedOnUpdate();
+            });
+            modelBuilder.Entity<User>(eb =>
+            {
+                eb.HasOne(x => x.Address).WithOne(a => a.User).HasForeignKey<Address>(a => a.UserId);
             });
         }
     }
