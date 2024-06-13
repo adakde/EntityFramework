@@ -6,8 +6,11 @@ namespace MyBoards.Entities
         public MyboardsContext(DbContextOptions<MyboardsContext> options) : base(options) 
         {
         }
+        public DbSet<Issue> Issues { get; set; }
+        public DbSet<Epic> Epics { get; set; }
+        public DbSet<Task> Tasks { get; set; }
         public DbSet<WorkItem> WorkItems { get; set; }
-        public DbSet<User> users { get; set; }
+        public DbSet<User> Users { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> comments { get; set; }
@@ -27,17 +30,28 @@ namespace MyBoards.Entities
                 eb.Property(y => y.Value).HasMaxLength(50);
             }
     );
+            modelBuilder.Entity<Epic>()
+                .Property(xi => xi.StartDate)
+                .HasPrecision(3);
+            modelBuilder.Entity<Epic>()
+                .Property(xi => xi.EndDate)
+                .HasPrecision(3);
+            modelBuilder.Entity<Task>().
+                Property(xx => xx.Activity).
+                HasMaxLength(200);
+            modelBuilder.Entity<Task>()
+                .Property(xs => xs.RemaningWork).
+                HasPrecision(14, 2);
+            modelBuilder.Entity<Issue>()
+                .Property(ss => ss.Efford)
+                .HasColumnType("decimal(5,2)");
             modelBuilder.Entity<WorkItem>().
                 Property(x => x.area).
                 HasColumnType("Varchar(200)");
+
             modelBuilder.Entity<WorkItem>(eb =>
             {
                 eb.Property(wi => wi.IterationPath).HasColumnName("Iteration_Path");
-                eb.Property(xi => xi.StartDate).HasPrecision(3);
-                eb.Property(yi => yi.EndDate).HasPrecision(3);
-                eb.Property(ss => ss.Efford).HasColumnType("decimal(5,2)");
-                eb.Property(xx => xx.Activity).HasMaxLength(200);
-                eb.Property(xs => xs.RemaningWork).HasPrecision(14, 2);
                 eb.Property(xx => xx.Priority).HasDefaultValue(1);
                 eb.HasMany(xa => xa.Comments)
                 .WithOne(c => c.WorkItem)

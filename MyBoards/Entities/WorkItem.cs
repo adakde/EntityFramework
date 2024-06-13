@@ -20,7 +20,7 @@ namespace MyBoards.Entities
         public decimal RemaningWork { get; set; }
 
     }
-    public class WorkItem
+    public abstract class WorkItem
     {
         public int Id { get; set; }
         public string state {  get; set; }
