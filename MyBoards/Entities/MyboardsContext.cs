@@ -55,7 +55,7 @@ namespace MyBoards.Entities
                 eb.Property(xx => xx.Priority).HasDefaultValue(1);
                 eb.HasMany(xa => xa.Comments)
                 .WithOne(c => c.WorkItem)
-                .HasForeignKey(c => c.WorkItem.Id);
+                .HasForeignKey(c => c.WorkItemId);
                 eb.HasOne(o => o.Author)
                 .WithMany(u => u.WorkItems)
                 .HasForeignKey(u => u.AuthorId);
