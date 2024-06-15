@@ -35,7 +35,7 @@ namespace MyBoards.Entities
         public User Author { get; set; }
         public Guid AuthorId { get; set; }
         public List<Tag> Tags { get; set; }
-        public WorkIteamState State { get; set; }
+        public WorkItemState State { get; set; }
         public int StateId { get; set; }
 
     }

@@ -14,7 +14,7 @@ namespace MyBoards.Entities
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<Comment> comments { get; set; }
-        public DbSet<WorkIteamState> States { get; set; }
+        public DbSet<WorkItemState> States { get; set; }
         public DbSet<WorkItemTag> WorkItemTags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -24,7 +24,7 @@ namespace MyBoards.Entities
                 eb.HasOne(x => x.State).WithMany().HasForeignKey(c => c.StateId);
             }
                 ) ;
-            modelBuilder.Entity<WorkIteamState>(eb =>
+            modelBuilder.Entity<WorkItemState>(eb =>
             {
                 eb.Property(x => x.Value).IsRequired();
                 eb.Property(y => y.Value).HasMaxLength(50);
@@ -71,7 +71,7 @@ namespace MyBoards.Entities
                     .HasForeignKey(u => u.WorkItemId),
                     wit =>
                     {
-                        wit.HasKey(X => new { X.WorkIteamId, X.TagId });
+                        wit.HasKey(X => new { X.WorkItemId, X.TagId });
                         wit.Property(X => X.PublicationDate).HasDefaultValueSql("Getutdate()");
                     }
                     );
