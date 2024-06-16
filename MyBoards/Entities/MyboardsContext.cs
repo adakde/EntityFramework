@@ -80,6 +80,9 @@ namespace MyBoards.Entities
             {
                 eb.Property(x => x.CreatedDate).HasDefaultValueSql("getutDate()");
                 eb.Property(x => x.UpdatedDate).ValueGeneratedOnUpdate();
+                eb.HasOne(c => c.Author)
+                .WithMany(a => a.Comments)
+                .HasForeignKey(c => c.AuthorId);
             });
             modelBuilder.Entity<User>(eb =>
             {

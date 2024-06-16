@@ -31,11 +31,12 @@ app.MapControllers();
 
 using var scope = app.Services.CreateScope();
 var dbContext = scope.ServiceProvider.GetService<MyboardsContext>();
- 
+
 var pendingMigrations = dbContext.Database.GetPendingMigrations();
 if (pendingMigrations.Any())
 {
     dbContext.Database.Migrate();
 }
+
 
 app.Run();
