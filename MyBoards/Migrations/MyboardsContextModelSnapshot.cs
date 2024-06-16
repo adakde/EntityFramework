@@ -266,7 +266,7 @@ namespace MyBoards.Migrations
                     b.HasOne("MyBoards.Entities.User", "Author")
                         .WithMany("Comments")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MyBoards.Entities.WorkItem", "WorkItem")

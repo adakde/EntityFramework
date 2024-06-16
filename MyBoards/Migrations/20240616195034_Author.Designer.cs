@@ -12,7 +12,7 @@ using MyBoards.Entities;
 namespace MyBoards.Migrations
 {
     [DbContext(typeof(MyboardsContext))]
-    [Migration("20240616194707_Author")]
+    [Migration("20240616195034_Author")]
     partial class Author
     {
         /// <inheritdoc />
@@ -269,7 +269,7 @@ namespace MyBoards.Migrations
                     b.HasOne("MyBoards.Entities.User", "Author")
                         .WithMany("Comments")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
                     b.HasOne("MyBoards.Entities.WorkItem", "WorkItem")
