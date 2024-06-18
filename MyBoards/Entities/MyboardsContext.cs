@@ -93,6 +93,12 @@ namespace MyBoards.Entities
                 .HasData(new WorkItemState() { Value = "To Do" , Id = 1 },
                 new WorkItemState() { Value = "Doing" , Id = 2},
                 new WorkItemState() { Value = "Done" , Id = 3});
+            modelBuilder.Entity<Tag>()
+                .HasData(new Tag() { Value = "Web", Id = 1 },
+                new Tag() { Value = "UI", Id = 2 },
+                new Tag() { Value = "Desktop", Id = 3 },
+                new Tag() { Value = "API", Id = 4 },
+                new Tag() { Value = "Service", Id = 5 });
         }
     }
 }

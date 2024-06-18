@@ -37,6 +37,37 @@ if (pendingMigrations.Any())
 {
     dbContext.Database.Migrate();
 }
-
+var users = dbContext.Users.ToList();
+if (!users.Any())
+{
+    
+    var user1 = new User()
+    {
+        Email = "kuba-kasprzak12@wp.pl",
+        FirstName = "Jakub",
+        LastName = "Kasprzak",
+        Address = new Address()
+        {
+            City = "Wieruszow",
+            Street = "Handlowa"
+        }
+    };
+    
+    var user2 = new User()
+    {
+        Email = "kuba-kasprzak21@wp.pl",
+        FirstName = "Jakub",
+        LastName = "Kasprzak",
+        Address = new Address()
+        {
+            City = "Kepno",
+            Street = "Handlowa"
+        }
+    };
+    
+    dbContext.Users.Add(user1);
+    dbContext.Users.Add(user2);
+    dbContext.SaveChanges();
+}
 
 app.Run();
