@@ -89,6 +89,10 @@ namespace MyBoards.Entities
             {
                 eb.HasOne(x => x.Address).WithOne(a => a.User).HasForeignKey<Address>(a => a.UserId);
             });
+            modelBuilder.Entity<WorkItemState>()
+                .HasData(new WorkItemState() { Value = "To Do" , Id = 1 },
+                new WorkItemState() { Value = "Doing" , Id = 2},
+                new WorkItemState() { Value = "Done" , Id = 3});
         }
     }
 }
