@@ -37,6 +37,7 @@ if (pendingMigrations.Any())
 {
     dbContext.Database.Migrate();
 }
+
 var users = dbContext.Users.ToList();
 if (!users.Any())
 {
@@ -69,5 +70,13 @@ if (!users.Any())
     dbContext.Users.Add(user2);
     dbContext.SaveChanges();
 }
+
+
+app.MapGet("data", (MyboardsContext db) =>
+    {
+        var epic = db.Epics.First();
+        var user = db.Users.First(u => u.FirstName == "Jakub");
+        return new { epic,  user};
+    });
 
 app.Run();
