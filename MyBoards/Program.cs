@@ -72,11 +72,10 @@ if (!users.Any())
 }
 
 
-app.MapGet("data", (MyboardsContext db) =>
+app.MapGet("data", async (MyboardsContext db) =>
     {
-        var epic = db.Epics.First();
-        var user = db.Users.First(u => u.FirstName == "Jakub");
-        return new { epic,  user};
+        var epicList = await db.WorkItems.Where(g => g.StateId == 4).OrderBy(c => c.Priority).ToListAsync();
+        return epicList;
     });
 
 app.Run();

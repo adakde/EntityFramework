@@ -78,7 +78,7 @@ namespace MyBoards.Entities
             });
             modelBuilder.Entity<Comment>(eb =>
             {
-                eb.Property(x => x.CreatedDate).HasDefaultValueSql("getutDate()");
+                eb.Property(x => x.CreatedDate).HasDefaultValueSql("Getutdate()");
                 eb.Property(x => x.UpdatedDate).ValueGeneratedOnUpdate();
                 eb.HasOne(c => c.Author)
                 .WithMany(a => a.Comments)
