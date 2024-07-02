@@ -1,6 +1,8 @@
+using Microsoft.AspNetCore.Http.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using MyBoards.Entities;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,10 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.Configure<JsonOptions>(options =>
+{
+    options.SerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+});
 
 builder.Services.AddDbContext<MyboardsContext>(
     option => option.UseSqlServer(builder.Configuration.GetConnectionString("MyBoardsConnectionString")));
@@ -74,16 +80,13 @@ if (!users.Any())
 
 app.MapGet("data", async (MyboardsContext db) =>
     {
-        var authorsCommentCountsQuery = db.comments
-         .GroupBy(c => c.AuthorId)
-         .Select(g => new { g.Key, Count = g.Count() });
-        
-        var authorsCommentCountsQueryToList = await authorsCommentCountsQuery.ToListAsync();
+        var user = await db.Users
+        .Include(u => u.Comments).ThenInclude(c => c.WorkItem)
+        .Include(u => u.Address)
+        .FirstAsync(user => user.Id == Guid.Parse("68366dbe-0809-490f-cc1d-08da10ab0e61"));
 
-        var topAuthor = authorsCommentCountsQueryToList.First(a => a.Count == authorsCommentCountsQueryToList.Max(acc => acc.Count));
-        
-        var userDetails = db.Users.First(u => u.Id == topAuthor.Key);
-        return new {userDetails, comentCount = topAuthor.Count};
+        Console.WriteLine(user.Comments.Count);
+        return user;
     });
 app.MapPost("Update", async (MyboardsContext db) =>
 {
