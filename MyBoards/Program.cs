@@ -104,19 +104,50 @@ app.MapPost("Update", async (MyboardsContext db) =>
 }
 
 );
-app.MapPost("create", async (MyboardsContext db) =>
+app.MapPost("Create", async (MyboardsContext db) =>
+
 {
-    Tag tag = new Tag()
+
+    var address = new Address()
+
     {
-        Value = "EF"
+
+        Id = Guid.Parse("b323dd7c-776a-4cf6-a92a-12df154b4a2c"),
+
+        City = "Kraków",
+
+        Country = "Poland",
+
+        Street = "D³uga"
+
+
+
     };
 
-    await db.Tags.AddAsync(tag);
+
+
+    var user = new User()
+
+    {
+
+        Email = "user@test.com",
+
+        FirstName = "Test User",
+
+        Address = address,
+
+    };
+
+
+
+    db.Users.Add(user);
+
     await db.SaveChangesAsync();
-    return tag;
 
 
-}
 
-);
+    return user;
+
+});
+
 app.Run();
