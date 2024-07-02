@@ -101,6 +101,22 @@ app.MapPost("Update", async (MyboardsContext db) =>
 
     return epic;
 
-});
+}
 
+);
+app.MapPost("create", async (MyboardsContext db) =>
+{
+    Tag tag = new Tag()
+    {
+        Value = "EF"
+    };
+
+    await db.Tags.AddAsync(tag);
+    await db.SaveChangesAsync();
+    return tag;
+
+
+}
+
+);
 app.Run();
