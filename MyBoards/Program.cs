@@ -153,4 +153,17 @@ app.MapPost("Create", async (MyboardsContext db) =>
 
 });
 
+app.MapPost("Delete", async (MyboardsContext db) =>
+{
+    var workiitemTag = await db.WorkItems.Where(a => a.Id == 12).ToListAsync();
+    db.WorkItems.RemoveRange(workiitemTag);
+    var workItem = await db.WorkItems.FirstAsync(a => a.Id == 16);
+    db.RemoveRange(workItem);
+
+    await db.SaveChangesAsync();
+
+}
+
+);
+
 app.Run();
