@@ -81,13 +81,12 @@ if (!users.Any())
 
 app.MapGet("data", async (MyboardsContext db) =>
     {
-        var user = await db.Users
-        .Include(u => u.Comments).ThenInclude(c => c.WorkItem)
-        .Include(u => u.Address)
-        .FirstAsync(user => user.Id == Guid.Parse("68366dbe-0809-490f-cc1d-08da10ab0e61"));
+        var states = db.States.
+        AsNoTracking()
+        .ToList();
 
-        Console.WriteLine(user.Comments.Count);
-        return user;
+
+        return states;
     });
 app.MapPost("Update", async (MyboardsContext db) =>
 {
