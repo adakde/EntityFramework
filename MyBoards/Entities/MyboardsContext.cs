@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MyBoards.Entities.ViewModels;
 namespace MyBoards.Entities
 {
     public class MyboardsContext : DbContext
@@ -6,6 +7,7 @@ namespace MyBoards.Entities
         public MyboardsContext(DbContextOptions<MyboardsContext> options) : base(options) 
         {
         }
+        public DbSet<TopAuthor> ViewTopAuthors { get; set; }
         public DbSet<Issue> Issues { get; set; }
         public DbSet<Epic> Epics { get; set; }
         public DbSet<Task> Tasks { get; set; }
@@ -99,6 +101,13 @@ namespace MyBoards.Entities
                 new Tag() { Value = "Desktop", Id = 3 },
                 new Tag() { Value = "API", Id = 4 },
                 new Tag() { Value = "Service", Id = 5 });
+
+            modelBuilder.Entity<TopAuthor>(eb =>
+            {
+                eb.ToView("View_TopAuthors");
+                eb.HasNoKey();
+            });
+
         }
     }
 }
